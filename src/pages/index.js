@@ -25,6 +25,7 @@ import {
   ModalBody,
   ModalCloseButton,
   useToast,
+  Text,
 } from '@chakra-ui/react';
 import { FaTrash, FaRegEdit, FaBold, FaItalic, FaUnderline, FaStrikethrough, FaPlus } from 'react-icons/fa';
 import {
@@ -46,6 +47,8 @@ const tagColors = ['blue', 'green', 'purple', 'yellow', 'orange'];
 
 const TabsContainer = () => {
   const toast = useToast();
+  const [selectedTopic, setSelectedTopic] = useState(null);
+  const [showDeleteConfirmationModal, setShowDeleteConfirmationModal] = useState(false);
   const [showAddTopicModal, setShowAddTopicModal] = useState(false);
   const [showBlogEditor, setShowBlogEditor] = useState(false);
   const [topicName, setTopicName] = useState('');
@@ -140,10 +143,23 @@ const TabsContainer = () => {
   ]);
 
   const handleDeleteTopic = (tabIndex, topicIndex) => {
-    const updatedTabs = [...tabs];
-    updatedTabs[tabIndex].topics.splice(topicIndex, 1);
-    setTabs(updatedTabs);
+    const selectedTopic = tabs[tabIndex].topics[topicIndex];
+    setSelectedTopic(selectedTopic);
+    setShowDeleteConfirmationModal(true);
   };
+  
+  const handleConfirmDeleteTopic = () => {
+    const updatedTabs = [...tabs];
+    const tabIndex = updatedTabs.findIndex((tab) => tab.topics.includes(selectedTopic));
+    if (tabIndex !== -1) {
+      const topicIndex = updatedTabs[tabIndex].topics.findIndex((topic) => topic === selectedTopic);
+      if (topicIndex !== -1) {
+        updatedTabs[tabIndex].topics.splice(topicIndex, 1);
+        setTabs(updatedTabs);
+      }
+    }
+    setShowDeleteConfirmationModal(false);
+  };  
 
   const handleAddTopic = () => {
     const newTopic = {
@@ -256,6 +272,30 @@ const TabsContainer = () => {
           ))}
         </TabPanels>
       </Tabs>
+
+      <Modal isOpen={showDeleteConfirmationModal} onClose={() => setShowDeleteConfirmationModal(false)}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Delete Topic</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Text>
+              Are you sure you want to delete the topic ?
+            </Text>
+            <Text fontWeight="bold" mt={2}>
+              {selectedTopic?.name}
+            </Text>
+          </ModalBody>
+          <ModalFooter>
+            <Button colorScheme="red" onClick={handleConfirmDeleteTopic}>
+              Delete
+            </Button>
+            <Button variant="ghost" onClick={() => setShowDeleteConfirmationModal(false)}>
+              Cancel
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
 
       <Modal isOpen={showAddTopicModal} onClose={() => setShowAddTopicModal(false)}>
         <ModalOverlay />
