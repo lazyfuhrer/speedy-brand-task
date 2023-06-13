@@ -159,6 +159,15 @@ const TabsContainer = () => {
       }
     }
     setShowDeleteConfirmationModal(false);
+  
+    toast({
+      title: 'Topic Deleted',
+      description: 'The topic has been successfully deleted.',
+      status: 'success',
+      duration: 3000,
+      isClosable: true,
+      position: 'bottom-right',
+    });
   };  
 
   const handleAddTopic = () => {
