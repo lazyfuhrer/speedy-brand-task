@@ -25,7 +25,7 @@ import {
   ModalBody,
   ModalCloseButton,
 } from '@chakra-ui/react';
-import { FaTrash, FaRegEdit, FaBold, FaItalic, FaUnderline, FaStrikethrough } from 'react-icons/fa';
+import { FaTrash, FaRegEdit, FaBold, FaItalic, FaUnderline, FaStrikethrough, FaPlus } from 'react-icons/fa';
 import {
   Editor as Edit,
   EditorState,
@@ -199,7 +199,7 @@ const TabsContainer = () => {
               </Tab>
             ))}
           </TabList>
-          <Button colorScheme="teal" size="sm" onClick={() => setShowAddTopicModal(true)}>
+          <Button colorScheme="orange" size="sm" rightIcon={<FaPlus />} onClick={() => setShowAddTopicModal(true)}>
             Add topic
           </Button>
         </Flex>
@@ -216,14 +216,16 @@ const TabsContainer = () => {
                     p={2}
                     bg="gray.100"
                     borderRadius="md"
-                    mb={2}
+                    mb={5}
                     borderWidth="1px"
                     borderStyle="solid"
                     borderColor="gray.200"
                     _last={{ mb: 0 }}
                   >
                     <Box flex="1">
-                      {topic.name}
+                      <Box mb={3}>
+                        {topic.name}
+                      </Box>
                       <Wrap mt={1}>
                         {topic.tags.map((tag, tagIndex) => (
                           <WrapItem key={tagIndex}>
@@ -239,11 +241,12 @@ const TabsContainer = () => {
                       size="sm"
                       mr={2}
                       onClick={() => handleDeleteTopic(tabIndex, topicIndex)}
+                      rightIcon={<FaTrash />}
                     >
-                      <FaTrash />
+                      Delete
                     </Button>
-                    <Button colorScheme="teal" size="sm" onClick={handleWrite}>
-                      <FaRegEdit />
+                    <Button colorScheme="teal" size="sm" onClick={handleWrite} rightIcon={<FaRegEdit />}>
+                      Write
                     </Button>
                   </ListItem>
                 ))}
