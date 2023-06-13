@@ -25,80 +25,90 @@ import {
   ModalBody,
   ModalCloseButton,
 } from '@chakra-ui/react';
-import { FaTrash } from 'react-icons/fa';
+import { FaTrash, FaRegEdit, FaBold, FaItalic, FaUnderline, FaStrikethrough } from 'react-icons/fa';
+import { Editor, EditorState, RichUtils } from 'draft-js';
+import 'draft-js/dist/Draft.css';
 
 const tagColors = ['blue', 'green', 'purple', 'yellow', 'orange'];
 
 const TabsContainer = () => {
-  const [tabData, setTabData] = useState([
+  const [showAddTopicModal, setShowAddTopicModal] = useState(false);
+  const [showBlogEditor, setShowBlogEditor] = useState(false);
+  const [topicName, setTopicName] = useState('');
+  const [keywords, setKeywords] = useState('');
+  const [tabs, setTabs] = useState([
     {
-      tabName: 'Tab 1',
+      name: 'Tab 1',
       topics: [
         {
           name: 'Topic 1',
-          tags: ['Tag 1', 'Tag 2']
+          tags: ['Tag 1', 'Tag 2'],
         },
-        {
-          name: 'Topic 2',
-          tags: ['Tag 3', 'Tag 4']
-        }
-      ]
+        // Add more topics here
+      ],
     },
     {
-      tabName: 'Tab 2',
-      topics: []
-    },
-    {
-      tabName: 'Tab 3',
+      name: 'Tab 2',
       topics: [
         {
           name: 'Topic 3',
-          tags: ['Tag 5', 'Tag 6']
+          tags: ['Tag 5', 'Tag 6'],
         },
-        {
-          name: 'Topic 4',
-          tags: ['Tag 7', 'Tag 8']
-        }
-      ]
+        // Add more topics here
+      ],
     },
-    // Add more tabs as needed
+    // Add more tabs here
   ]);
 
-  const [showAddTopicModal, setShowAddTopicModal] = useState(false);
-  const [topicName, setTopicName] = useState('');
-  const [keywords, setKeywords] = useState('');
-
-  const handleAddTopic = () => {
-    if (topicName && keywords) {
-      const newTopic = {
-        name: topicName,
-        tags: keywords.split(',').map((keyword) => keyword.trim())
-      };
-
-      const updatedTabData = [...tabData];
-      updatedTabData[1].topics.push(newTopic);
-
-      setTabData(updatedTabData);
-      setShowAddTopicModal(false);
-      setTopicName('');
-      setKeywords('');
-    }
+  const handleDeleteTopic = (tabIndex, topicIndex) => {
+    const updatedTabs = [...tabs];
+    updatedTabs[tabIndex].topics.splice(topicIndex, 1);
+    setTabs(updatedTabs);
   };
 
-  const handleDeleteTopic = (tabIndex, topicIndex) => {
-    const updatedTabData = [...tabData];
-    updatedTabData[tabIndex].topics.splice(topicIndex, 1);
-    setTabData(updatedTabData);
+  const handleAddTopic = () => {
+    const newTopic = {
+      name: topicName,
+      tags: keywords.split(',').map((keyword) => keyword.trim()),
+    };
+    const updatedTabs = [...tabs];
+    updatedTabs[1].topics.push(newTopic); // Add the new topic to the second tab
+    setTabs(updatedTabs);
+    setShowAddTopicModal(false);
+    setTopicName('');
+    setKeywords('');
+  };
+
+  const handleWrite = () => {
+    setShowBlogEditor(true);
+  };
+
+  const handleCloseBlogEditor = () => {
+    setShowBlogEditor(false);
+  };
+
+  const [editorState, setEditorState] = useState(EditorState.createEmpty());
+
+  const handleEditorChange = (newEditorState) => {
+    setEditorState(newEditorState);
+  };
+
+  const handleToggleInlineStyle = (inlineStyle) => {
+    setEditorState(RichUtils.toggleInlineStyle(editorState, inlineStyle));
+  };
+
+  const handleToggleBlockType = (blockType) => {
+    setEditorState(RichUtils.toggleBlockType(editorState, blockType));
   };
 
   return (
-    <Box p={4} m={4}>
+    <Box p={4} m={4} borderWidth="1px" borderRadius="md" boxShadow="md">
       <Tabs isLazy>
-        <Flex alignItems="center" justifyContent="space-between" mb={4} p={2}>
+        <Flex alignItems="center" justifyContent="space-between" mb={4} p={2} borderWidth="1px" borderRadius="md" borderStyle="solid" borderColor="gray.200">
           <TabList>
-            {tabData.map((tab, index) => (
-              <Tab key={index} _selected={{ color: 'teal.500', borderBottomColor: 'teal.500' }}>
-                {tab.tabName}
+            {tabs.map((tab, index) => (
+              <Tab key={index} _selected={{ color: 'teal.500', borderBottomColor: 'teal.500' }} borderWidth="1px" borderRadius="md" borderStyle="solid" borderColor="gray.200">
+                {tab.name}
               </Tab>
             ))}
           </TabList>
@@ -107,9 +117,9 @@ const TabsContainer = () => {
           </Button>
         </Flex>
         <TabPanels>
-          {tabData.map((tab, tabIndex) => (
+          {tabs.map((tab, tabIndex) => (
             <TabPanel key={tabIndex}>
-              <UnorderedList>
+              <UnorderedList borderWidth="1px" borderRadius="md" borderStyle="solid" borderColor="gray.200">
                 {tab.topics.map((topic, topicIndex) => (
                   <ListItem
                     key={topicIndex}
@@ -120,6 +130,10 @@ const TabsContainer = () => {
                     bg="gray.100"
                     borderRadius="md"
                     mb={2}
+                    borderWidth="1px"
+                    borderStyle="solid"
+                    borderColor="gray.200"
+                    _last={{ mb: 0 }}
                   >
                     <Box flex="1">
                       {topic.name}
@@ -133,16 +147,17 @@ const TabsContainer = () => {
                         ))}
                       </Wrap>
                     </Box>
-                    <Button colorScheme="teal" size="sm">
-                      Write
-                    </Button>
                     <Button
-                      variant="ghost"
                       colorScheme="red"
                       size="sm"
+                      mr={2}
                       onClick={() => handleDeleteTopic(tabIndex, topicIndex)}
                     >
                       <FaTrash />
+                    </Button>
+                    <Button colorScheme="teal" size="sm" onClick={handleWrite}>
+                      <FaRegEdit />
+                      Write
                     </Button>
                   </ListItem>
                 ))}
@@ -158,7 +173,7 @@ const TabsContainer = () => {
           <ModalHeader>Add Topic</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <FormControl id="topicName" mb={4}>
+            <FormControl mb={4}>
               <FormLabel>Topic Name</FormLabel>
               <Input
                 placeholder="Enter topic name"
@@ -166,7 +181,7 @@ const TabsContainer = () => {
                 onChange={(e) => setTopicName(e.target.value)}
               />
             </FormControl>
-            <FormControl id="keywords" mb={4}>
+            <FormControl>
               <FormLabel>Keywords</FormLabel>
               <Input
                 placeholder="Enter keywords (comma-separated)"
@@ -176,11 +191,76 @@ const TabsContainer = () => {
             </FormControl>
           </ModalBody>
           <ModalFooter>
-            <Button colorScheme="teal" onClick={handleAddTopic}>
-              Save
+            <Button colorScheme="teal" mr={3} onClick={handleAddTopic}>
+              Add Topic
             </Button>
-            <Button variant="ghost" colorScheme="red" ml={2} onClick={() => setShowAddTopicModal(false)}>
+            <Button variant="ghost" colorScheme="red" onClick={() => setShowAddTopicModal(false)}>
               Cancel
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+
+      <Modal isOpen={showBlogEditor} onClose={handleCloseBlogEditor} size="xl">
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Blog Editor</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Flex align="center" mb={2}>
+              <ToolbarButton
+                icon={<FaBold />}
+                active={editorState.getCurrentInlineStyle().has('BOLD')}
+                onClick={() => handleToggleInlineStyle('BOLD')}
+              />
+              <ToolbarButton
+                icon={<FaItalic />}
+                active={editorState.getCurrentInlineStyle().has('ITALIC')}
+                onClick={() => handleToggleInlineStyle('ITALIC')}
+              />
+              <ToolbarButton
+                icon={<FaUnderline />}
+                active={editorState.getCurrentInlineStyle().has('UNDERLINE')}
+                onClick={() => handleToggleInlineStyle('UNDERLINE')}
+              />
+              <ToolbarButton
+                icon={<FaStrikethrough />}
+                active={editorState.getCurrentInlineStyle().has('STRIKETHROUGH')}
+                onClick={() => handleToggleInlineStyle('STRIKETHROUGH')}
+              />
+              <ToolbarButton
+                label="H1"
+                active={editorState.getCurrentContent().getBlockForKey(editorState.getSelection().getStartKey()).getType() === 'header-one'}
+                onClick={() => handleToggleBlockType('header-one')}
+              />
+              <ToolbarButton
+                label="H2"
+                active={editorState.getCurrentContent().getBlockForKey(editorState.getSelection().getStartKey()).getType() === 'header-two'}
+                onClick={() => handleToggleBlockType('header-two')}
+              />
+              <ToolbarButton
+                label="Blockquote"
+                active={editorState.getCurrentContent().getBlockForKey(editorState.getSelection().getStartKey()).getType() === 'blockquote'}
+                onClick={() => handleToggleBlockType('blockquote')}
+              />
+              <ToolbarButton
+                label="UL"
+                active={editorState.getCurrentContent().getBlockForKey(editorState.getSelection().getStartKey()).getType() === 'unordered-list-item'}
+                onClick={() => handleToggleBlockType('unordered-list-item')}
+              />
+              <ToolbarButton
+                label="OL"
+                active={editorState.getCurrentContent().getBlockForKey(editorState.getSelection().getStartKey()).getType() === 'ordered-list-item'}
+                onClick={() => handleToggleBlockType('ordered-list-item')}
+              />
+            </Flex>
+            <Box border="1px solid #E2E8F0" borderRadius="md" minHeight="200px" p={2}>
+              <Editor editorState={editorState} onChange={handleEditorChange} />
+            </Box>
+          </ModalBody>
+          <ModalFooter>
+            <Button colorScheme="teal" onClick={handleCloseBlogEditor}>
+              Generate
             </Button>
           </ModalFooter>
         </ModalContent>
@@ -188,5 +268,17 @@ const TabsContainer = () => {
     </Box>
   );
 };
+
+const ToolbarButton = ({ icon, label, active, onClick }) => (
+  <Button
+    size="sm"
+    colorScheme={active ? 'teal' : undefined}
+    mr={2}
+    onClick={onClick}
+    variant={active ? 'solid' : 'ghost'}
+  >
+    {icon || label}
+  </Button>
+);
 
 export default TabsContainer;
