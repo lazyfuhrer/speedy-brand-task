@@ -26,8 +26,20 @@ import {
   ModalCloseButton,
 } from '@chakra-ui/react';
 import { FaTrash, FaRegEdit, FaBold, FaItalic, FaUnderline, FaStrikethrough } from 'react-icons/fa';
-import { Editor, EditorState, RichUtils } from 'draft-js';
+import {
+  Editor as Edit,
+  EditorState,
+  RichUtils,
+  ContentState,
+  convertToRaw,
+  convertFromRaw,
+} from 'draft-js';
+import Editor from 'draft-js-plugins-editor';
+import createImagePlugin from 'draft-js-image-plugin';
 import 'draft-js/dist/Draft.css';
+
+const imagePlugin = createImagePlugin();
+const plugins = [imagePlugin];
 
 const tagColors = ['blue', 'green', 'purple', 'yellow', 'orange'];
 
@@ -99,6 +111,16 @@ const TabsContainer = () => {
 
   const handleToggleBlockType = (blockType) => {
     setEditorState(RichUtils.toggleBlockType(editorState, blockType));
+  };
+
+  const convertToRawContent = (editorState) => {
+    const contentState = editorState.getCurrentContent();
+    return convertToRaw(contentState);
+  };
+
+  const convertFromRawContent = (rawContentState) => {
+    const contentState = convertFromRaw(rawContentState);
+    return EditorState.createWithContent(contentState);
   };
 
   return (
@@ -255,7 +277,11 @@ const TabsContainer = () => {
               />
             </Flex>
             <Box border="1px solid #E2E8F0" borderRadius="md" minHeight="200px" p={2}>
-              <Editor editorState={editorState} onChange={handleEditorChange} />
+              <Editor
+                editorState={editorState}
+                onChange={handleEditorChange}
+                plugins={[imagePlugin]}
+              />
             </Box>
           </ModalBody>
           <ModalFooter>
