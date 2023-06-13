@@ -244,7 +244,6 @@ const TabsContainer = () => {
                     </Button>
                     <Button colorScheme="teal" size="sm" onClick={handleWrite}>
                       <FaRegEdit />
-                      Write
                     </Button>
                   </ListItem>
                 ))}
