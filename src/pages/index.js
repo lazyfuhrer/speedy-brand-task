@@ -24,6 +24,7 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
+  useToast,
 } from '@chakra-ui/react';
 import { FaTrash, FaRegEdit, FaBold, FaItalic, FaUnderline, FaStrikethrough, FaPlus } from 'react-icons/fa';
 import {
@@ -44,6 +45,7 @@ const plugins = [imagePlugin];
 const tagColors = ['blue', 'green', 'purple', 'yellow', 'orange'];
 
 const TabsContainer = () => {
+  const toast = useToast();
   const [showAddTopicModal, setShowAddTopicModal] = useState(false);
   const [showBlogEditor, setShowBlogEditor] = useState(false);
   const [topicName, setTopicName] = useState('');
@@ -154,7 +156,16 @@ const TabsContainer = () => {
     setShowAddTopicModal(false);
     setTopicName('');
     setKeywords('');
-  };
+  
+    toast({
+      title: 'Topic Added',
+      description: 'The topic has been successfully added.',
+      status: 'success',
+      duration: 3000,
+      isClosable: true,
+      position: 'bottom-right',
+    });
+  };  
 
   const handleWrite = () => {
     setShowBlogEditor(true);
@@ -236,18 +247,8 @@ const TabsContainer = () => {
                         ))}
                       </Wrap>
                     </Box>
-                    <Button
-                      colorScheme="red"
-                      size="sm"
-                      mr={2}
-                      onClick={() => handleDeleteTopic(tabIndex, topicIndex)}
-                      rightIcon={<FaTrash />}
-                    >
-                      Delete
-                    </Button>
-                    <Button colorScheme="teal" size="sm" onClick={handleWrite} rightIcon={<FaRegEdit />}>
-                      Write
-                    </Button>
+                    <Button colorScheme="red" size="sm" mr={2} onClick={() => handleDeleteTopic(tabIndex, topicIndex)} rightIcon={<FaTrash />}>Delete</Button>
+                    <Button colorScheme="teal" size="sm" onClick={handleWrite} rightIcon={<FaRegEdit />}>Write</Button>
                   </ListItem>
                 ))}
               </UnorderedList>
