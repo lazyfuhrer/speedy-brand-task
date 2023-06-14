@@ -39,6 +39,7 @@ import Editor from 'draft-js-plugins-editor';
 import createImagePlugin from 'draft-js-image-plugin';
 import 'draft-js/dist/Draft.css';
 import ToolbarButton from '@/components/ToolbarButton';
+import { TabsData } from '@/constant/TabsData';
 
 // Create an instance of the image plugin
 const imagePlugin = createImagePlugin();
@@ -58,95 +59,7 @@ const Home = () => {
   const [keywords, setKeywords] = useState('');
   const [imageUrl, setImageUrl] = useState('');
   const fileInputRef = useRef();
-  const [tabs, setTabs] = useState([
-    // Tabs, Topics and Tags data
-    {
-      name: 'All',
-      topics: [
-        {
-          name: 'The importance of establishing a Strong Online Presence for Small Businesses',
-          tags: ['online presence', 'small businesses', 'digital marketing', 'branding'],
-        },
-        {
-          name: 'How fast Turnaround Times in logo and website design can help your business',
-          tags: ['fast turnaround', 'logo design', 'website design', 'branding'],
-        },
-        {
-          name: 'Affordable branding solutions for startups and entrepreneurs',
-          tags: ['affordable branding', 'startups', 'entrepreneurs', 'logo design', 'website design'],
-        },
-        {
-          name: 'The Benifits of Compreshensive Branding services for Small to Medium-sized Businesses',
-          tags: ['compreshensive Branding', 'small businesses', 'logo design', 'website design', 'social media engagement'],
-        },
-        {
-          name: 'Expert tips for choosing the right digital marketing agency for your business',
-          tags: ['digital marketing agency', 'tips','branding', 'website design', 'social media engagement'],
-        },
-      ],
-    },
-    {
-      name: 'Custom',
-      topics: [
-        {
-          name: 'The importance of establishing a Strong Online Presence for Small Businesses',
-          tags: ['online presence', 'small businesses', 'digital marketing', 'branding'],
-        },
-      ],
-    },
-    // Add more tabs here
-    {
-      name: 'ICP',
-      topics: [
-        {
-          name: 'The importance of establishing a Strong Online Presence for Small Businesses',
-          tags: ['online presence', 'small businesses', 'digital marketing', 'branding'],
-        },
-        {
-          name: 'How fast Turnaround Times in logo and website design can help your business',
-          tags: ['fast turnaround', 'logo design', 'website design', 'branding'],
-        },
-      ],
-    },
-    {
-      name: 'Mission',
-      topics: [
-        {
-          name: 'The importance of establishing a Strong Online Presence for Small Businesses',
-          tags: ['online presence', 'small businesses', 'digital marketing', 'branding'],
-        },
-        {
-          name: 'How fast Turnaround Times in logo and website design can help your business',
-          tags: ['fast turnaround', 'logo design', 'website design', 'branding'],
-        },
-        {
-          name: 'Affordable branding solutions for startups and entrepreneurs',
-          tags: ['affordable branding', 'startups', 'entrepreneurs', 'logo design', 'website design'],
-        },
-      ],
-    },
-    {
-      name: 'Product',
-      topics: [
-        {
-          name: 'The importance of establishing a Strong Online Presence for Small Businesses',
-          tags: ['online presence', 'small businesses', 'digital marketing', 'branding'],
-        },
-        {
-          name: 'How fast Turnaround Times in logo and website design can help your business',
-          tags: ['fast turnaround', 'logo design', 'website design', 'branding'],
-        },
-        {
-          name: 'Affordable branding solutions for startups and entrepreneurs',
-          tags: ['affordable branding', 'startups', 'entrepreneurs', 'logo design', 'website design'],
-        },
-        {
-          name: 'The Benifits of Compreshensive Branding services for Small to Medium-sized Businesses',
-          tags: ['compreshensive Branding', 'small businesses', 'logo design', 'website design', 'social media engagement'],
-        },
-      ],
-    },
-  ]);
+  const [tabs, setTabs] = useState(TabsData);
 
   const handleDeleteTopic = (tabIndex, topicIndex) => {
     // Delete the selected topic
