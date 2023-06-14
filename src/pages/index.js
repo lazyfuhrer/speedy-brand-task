@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import {
   Box,
   Flex,
@@ -29,14 +29,11 @@ import {
   Heading,
 } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
-import { FaTrash, FaRegEdit, FaBold, FaItalic, FaUnderline, FaStrikethrough, FaPlus } from 'react-icons/fa';
+import { FaTrash, FaRegEdit, FaBold, FaItalic, FaUnderline, FaStrikethrough, FaPlus, FaImage } from 'react-icons/fa';
 import {
   Editor as Edit,
   EditorState,
   RichUtils,
-  ContentState,
-  convertToRaw,
-  convertFromRaw,
 } from 'draft-js';
 import Editor from 'draft-js-plugins-editor';
 import createImagePlugin from 'draft-js-image-plugin';
@@ -49,12 +46,15 @@ const tagColors = ['blue', 'green', 'purple', 'yellow', 'orange'];
 
 const TabsContainer = () => {
   const toast = useToast();
+  const [selectedImage, setSelectedImage] = useState('');
   const [selectedTopic, setSelectedTopic] = useState(null);
   const [showDeleteConfirmationModal, setShowDeleteConfirmationModal] = useState(false);
   const [showAddTopicModal, setShowAddTopicModal] = useState(false);
   const [showBlogEditor, setShowBlogEditor] = useState(false);
   const [topicName, setTopicName] = useState('');
   const [keywords, setKeywords] = useState('');
+  const [imageUrl, setImageUrl] = useState('');
+  const fileInputRef = useRef();
   const [tabs, setTabs] = useState([
     {
       name: 'All',
@@ -216,16 +216,31 @@ const TabsContainer = () => {
     setEditorState(RichUtils.toggleBlockType(editorState, blockType));
   };
 
-  const convertToRawContent = (editorState) => {
-    const contentState = editorState.getCurrentContent();
-    return convertToRaw(contentState);
+  const handleAddImage = () => {
+    fileInputRef.current.click();
   };
+  
+  const handleImageUpload = (e) => {
+  const file = e.target.files[0];
+  const reader = new FileReader();
+  reader.onload = (event) => {
+    const url = event.target.result;
+    setImageUrl(url);
+    setSelectedImage(url); // Set the selected image URL
+    const imagePluginEditorState = imagePlugin.addImage(editorState, url);
+    setEditorState(imagePluginEditorState);
 
-  const convertFromRawContent = (rawContentState) => {
-    const contentState = convertFromRaw(rawContentState);
-    return EditorState.createWithContent(contentState);
+    // Display image details in the console
+    console.log('Image details:', {
+      file: file,
+      url: url,
+      editorState: imagePluginEditorState,
+    });
   };
+  reader.readAsDataURL(file);
+};
 
+  
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
       <Box p={4} m={4} borderWidth="1px" borderRadius="md" boxShadow="md" bg="gray.50">
@@ -402,6 +417,11 @@ const TabsContainer = () => {
                   active={editorState.getCurrentContent().getBlockForKey(editorState.getSelection().getStartKey()).getType() === 'ordered-list-item'}
                   onClick={() => handleToggleBlockType('ordered-list-item')}
                 />
+                <ToolbarButton
+                  icon={<FaPlus />}
+                  onClick={handleAddImage}
+                  label="Add Image"
+                />
               </Flex>
               <Box border="1px solid #E2E8F0" borderRadius="md" minHeight="200px" p={2}>
                 <Editor
@@ -419,6 +439,13 @@ const TabsContainer = () => {
             </ModalFooter>
           </ModalContent>
         </Modal>
+        <input
+          type="file"
+          accept="image/*"
+          ref={fileInputRef}
+          style={{ display: 'none' }}
+          onChange={handleImageUpload}
+        />
       </Box>
     </motion.div>
   );
