@@ -8,7 +8,7 @@
 
 ---
 
-[![Screenshot](https://github.com/lazyfuhrer/speedy-brand-task/assets/64888892/b38444ce-a71e-4140-8107-1060029edd11)](https://example.com/recorded-screen-video)
+![speedy-brand](https://github.com/lazyfuhrer/speedy-brand-task/assets/64888892/61492ba5-0a5c-4f52-ae24-43fa1f3988dc)
 
 ## Assignment Link
 
