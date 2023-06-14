@@ -227,7 +227,7 @@ const TabsContainer = () => {
   return (
     <Box p={4} m={4} borderWidth="1px" borderRadius="md" boxShadow="md" bg="gray.50">
       <Tabs isLazy >
-        <Flex alignItems="center" justifyContent="space-between" mb={4} p={2} borderWidth="1px" borderRadius="md" borderStyle="solid" borderColor="gray.200">
+        <Flex alignItems="center" justifyContent="space-between" mb={4} p={2} borderWidth="1px" borderRadius="md" borderStyle="solid" borderColor="gray.200" flexWrap={{ base: 'wrap', lg: 'nowrap' }}>
           <TabList>
             {tabs.map((tab, index) => (
               <Tab key={index} _selected={{ color: 'teal.500', bg: 'white' }} _hover={{ bg: 'gray.200' }} borderWidth="1px" borderRadius="md" borderStyle="solid" borderColor="gray.200" px={3} py={2} w={'150px'}>
@@ -235,7 +235,7 @@ const TabsContainer = () => {
               </Tab>
             ))}
           </TabList>
-          <Button colorScheme="orange" size="sm" rightIcon={<FaPlus />} onClick={() => setShowAddTopicModal(true)}>
+          <Button colorScheme="orange" size="md" rightIcon={<FaPlus />} onClick={() => setShowAddTopicModal(true)} flex={{ base: '1', lg: 'none' }} flexGrow={{ base: '1', lg: 'initial' }} mt={{ base: '5'}} mb={{ base: '5'}}>
             Add topic
           </Button>
         </Flex>
@@ -274,8 +274,8 @@ const TabsContainer = () => {
                         ))}
                       </Wrap>
                     </Box>
-                    <Button colorScheme="red" size="sm" mr={2} onClick={() => handleDeleteTopic(tabIndex, topicIndex)} rightIcon={<FaTrash />} _hover={{ bg: 'red.500', color: 'white' }}>Delete</Button>
-                    <Button colorScheme="teal" size="sm" onClick={handleWrite} rightIcon={<FaRegEdit />} _hover={{ bg: 'teal.500' }}>Write</Button>
+                    <Button colorScheme="teal" size="sm" onClick={handleWrite} rightIcon={<FaRegEdit />} _hover={{ backgroundColor: 'teal.600', color: 'white' }} >Write</Button>
+                    <Button colorScheme="red" size="sm" ml={2} onClick={() => handleDeleteTopic(tabIndex, topicIndex)} rightIcon={<FaTrash />} _hover={{ backgroundColor: 'red.600', color: 'white' }} >Delete</Button>
                   </ListItem>
                 ))}
               </UnorderedList>
@@ -287,8 +287,6 @@ const TabsContainer = () => {
       <Modal isOpen={showDeleteConfirmationModal} onClose={() => setShowDeleteConfirmationModal(false)}>
         <ModalOverlay />
         <ModalContent bg="white"
-          mx={2}
-          my={4}
           borderRadius="md"
           borderWidth="1px"
           borderStyle="solid"
@@ -406,6 +404,7 @@ const TabsContainer = () => {
                 editorState={editorState}
                 onChange={handleEditorChange}
                 plugins={[imagePlugin]}
+                placeholder="Write your blog content here..."
               />
             </Box>
           </ModalBody>
