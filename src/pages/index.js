@@ -225,12 +225,12 @@ const TabsContainer = () => {
   };
 
   return (
-    <Box p={4} m={4} borderWidth="1px" borderRadius="md" boxShadow="md">
-      <Tabs isLazy>
+    <Box p={4} m={4} borderWidth="1px" borderRadius="md" boxShadow="md" bg="gray.50">
+      <Tabs isLazy >
         <Flex alignItems="center" justifyContent="space-between" mb={4} p={2} borderWidth="1px" borderRadius="md" borderStyle="solid" borderColor="gray.200">
           <TabList>
             {tabs.map((tab, index) => (
-              <Tab key={index} _selected={{ color: 'teal.500', borderBottomColor: 'teal.500' }} borderWidth="1px" borderRadius="md" borderStyle="solid" borderColor="gray.200">
+              <Tab key={index} _selected={{ color: 'teal.500', bg: 'white' }} _hover={{ bg: 'gray.200' }} borderWidth="1px" borderRadius="md" borderStyle="solid" borderColor="gray.200" px={3} py={2} w={'150px'}>
                 {tab.name}
               </Tab>
             ))}
@@ -242,6 +242,7 @@ const TabsContainer = () => {
         <TabPanels>
           {tabs.map((tab, tabIndex) => (
             <TabPanel key={tabIndex}>
+              <Text mb={5} fontWeight="bold" fontSize={'sm'} ml={7}>Recommended Topics</Text>
               <UnorderedList borderWidth="1px" borderRadius="md" borderStyle="solid" borderColor="gray.200">
                 {tab.topics.map((topic, topicIndex) => (
                   <ListItem
@@ -250,13 +251,14 @@ const TabsContainer = () => {
                     alignItems="center"
                     justifyContent="space-between"
                     p={2}
-                    bg="gray.100"
+                    bg="white"
                     borderRadius="md"
                     mb={5}
                     borderWidth="1px"
                     borderStyle="solid"
                     borderColor="gray.200"
                     _last={{ mb: 0 }}
+                    _hover={{ bg: 'gray.50' }}
                   >
                     <Box flex="1">
                       <Box mb={3}>
@@ -272,8 +274,8 @@ const TabsContainer = () => {
                         ))}
                       </Wrap>
                     </Box>
-                    <Button colorScheme="red" size="sm" mr={2} onClick={() => handleDeleteTopic(tabIndex, topicIndex)} rightIcon={<FaTrash />}>Delete</Button>
-                    <Button colorScheme="teal" size="sm" onClick={handleWrite} rightIcon={<FaRegEdit />}>Write</Button>
+                    <Button colorScheme="red" size="sm" mr={2} onClick={() => handleDeleteTopic(tabIndex, topicIndex)} rightIcon={<FaTrash />} _hover={{ bg: 'red.500', color: 'white' }}>Delete</Button>
+                    <Button colorScheme="teal" size="sm" onClick={handleWrite} rightIcon={<FaRegEdit />} _hover={{ bg: 'teal.500' }}>Write</Button>
                   </ListItem>
                 ))}
               </UnorderedList>
@@ -284,7 +286,13 @@ const TabsContainer = () => {
 
       <Modal isOpen={showDeleteConfirmationModal} onClose={() => setShowDeleteConfirmationModal(false)}>
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent bg="white"
+          mx={2}
+          my={4}
+          borderRadius="md"
+          borderWidth="1px"
+          borderStyle="solid"
+          borderColor="gray.200">
           <ModalHeader>Delete Topic</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
