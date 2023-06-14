@@ -38,13 +38,16 @@ import {
 import Editor from 'draft-js-plugins-editor';
 import createImagePlugin from 'draft-js-image-plugin';
 import 'draft-js/dist/Draft.css';
+import ToolbarButton from '@/components/ToolbarButton';
 
+// Create an instance of the image plugin
 const imagePlugin = createImagePlugin();
 const plugins = [imagePlugin];
 
+// Define tag colors
 const tagColors = ['blue', 'green', 'purple', 'yellow', 'orange'];
 
-const TabsContainer = () => {
+const Home = () => {
   const toast = useToast();
   const [selectedImage, setSelectedImage] = useState('');
   const [selectedTopic, setSelectedTopic] = useState(null);
@@ -56,6 +59,7 @@ const TabsContainer = () => {
   const [imageUrl, setImageUrl] = useState('');
   const fileInputRef = useRef();
   const [tabs, setTabs] = useState([
+    // Tabs, Topics and Tags data
     {
       name: 'All',
       topics: [
@@ -145,6 +149,7 @@ const TabsContainer = () => {
   ]);
 
   const handleDeleteTopic = (tabIndex, topicIndex) => {
+    // Delete the selected topic
     const selectedTopic = tabs[tabIndex].topics[topicIndex];
     setSelectedTopic(selectedTopic);
     setShowDeleteConfirmationModal(true);
@@ -161,7 +166,8 @@ const TabsContainer = () => {
       }
     }
     setShowDeleteConfirmationModal(false);
-  
+
+    // Display success toast message
     toast({
       title: 'Topic Deleted',
       description: 'The topic has been successfully deleted.',
@@ -173,6 +179,7 @@ const TabsContainer = () => {
   };  
 
   const handleAddTopic = () => {
+    // Add a new topic
     const newTopic = {
       name: topicName,
       tags: keywords.split(',').map((keyword) => keyword.trim()),
@@ -183,7 +190,8 @@ const TabsContainer = () => {
     setShowAddTopicModal(false);
     setTopicName('');
     setKeywords('');
-  
+
+    // Display success toast message
     toast({
       title: 'Topic Added',
       description: 'The topic has been successfully added.',
@@ -240,7 +248,7 @@ const TabsContainer = () => {
   reader.readAsDataURL(file);
 };
 
-  
+  // Render the tabbed interface
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
       <Box p={4} m={4} borderWidth="1px" borderRadius="md" boxShadow="md" bg="gray.50">
@@ -303,6 +311,7 @@ const TabsContainer = () => {
           </TabPanels>
         </Tabs>
 
+        {/* Delete confirmation modal */}                      
         <Modal isOpen={showDeleteConfirmationModal} onClose={() => setShowDeleteConfirmationModal(false)}>
           <ModalOverlay />
           <ModalContent bg="white"
@@ -331,6 +340,7 @@ const TabsContainer = () => {
           </ModalContent>
         </Modal>
 
+        {/* Add topic modal */}
         <Modal isOpen={showAddTopicModal} onClose={() => setShowAddTopicModal(false)}>
           <ModalOverlay />
           <ModalContent>
@@ -365,6 +375,7 @@ const TabsContainer = () => {
           </ModalContent>
         </Modal>
 
+        {/* Blog editor modal */}                      
         <Modal isOpen={showBlogEditor} onClose={handleCloseBlogEditor} size="xl">
           <ModalOverlay />
           <ModalContent>
@@ -439,28 +450,15 @@ const TabsContainer = () => {
             </ModalFooter>
           </ModalContent>
         </Modal>
-        <input
-          type="file"
-          accept="image/*"
-          ref={fileInputRef}
-          style={{ display: 'none' }}
-          onChange={handleImageUpload}
+        <Input type="file"                    
+          accept="image/*"                 
+          ref={fileInputRef}               
+          display="none"                  
+          onChange={handleImageUpload}    
         />
       </Box>
     </motion.div>
   );
 };
 
-const ToolbarButton = ({ icon, label, active, onClick }) => (
-  <Button
-    size="sm"
-    colorScheme={active ? 'teal' : undefined}
-    mr={2}
-    onClick={onClick}
-    variant={active ? 'solid' : 'ghost'}
-  >
-    {icon || label}
-  </Button>
-);
-
-export default TabsContainer;
+export default Home;
