@@ -2,6 +2,14 @@
 
 This repository contains the source code for the Speedy Brand Task, built with Next.js.
 
+## Demo Video
+
+Click [here](https://drive.google.com/file/d/1AW3ot-WnlK0NiV6cUTBi5mSgVx_Z1oEo/view?usp=sharing) to watch the recorded screen video.
+
+---
+
+[![Screenshot](https://github.com/lazyfuhrer/speedy-brand-task/assets/64888892/b38444ce-a71e-4140-8107-1060029edd11)](https://example.com/recorded-screen-video)
+
 ## Assignment Link
 
 The assignment details can be found at: [Assignment Link](https://drive.google.com/file/d/1AQA9uGgwkI4XeG94S82Lh-84Qxefgeol/view)
