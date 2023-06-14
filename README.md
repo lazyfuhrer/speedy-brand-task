@@ -1,6 +1,6 @@
 # Speedy Brand Task
 
-📁 This repository contains the source code for the Speedy Brand Task, built with Next.js.
+📁 This repository contains the source code for the task, built with Next.js.
 
 ## Demo Video
 
