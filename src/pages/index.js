@@ -26,6 +26,7 @@ import {
   ModalCloseButton,
   useToast,
   Text,
+  Heading,
 } from '@chakra-ui/react';
 import { FaTrash, FaRegEdit, FaBold, FaItalic, FaUnderline, FaStrikethrough, FaPlus } from 'react-icons/fa';
 import {
@@ -226,11 +227,12 @@ const TabsContainer = () => {
 
   return (
     <Box p={4} m={4} borderWidth="1px" borderRadius="md" boxShadow="md" bg="gray.50">
+      <Heading as="h2" size="md" mb={2}>Categories</Heading>
       <Tabs isLazy >
-        <Flex alignItems="center" justifyContent="space-between" mb={4} p={2} borderWidth="1px" borderRadius="md" borderStyle="solid" borderColor="gray.200" flexWrap={{ base: 'wrap', lg: 'nowrap' }}>
+        <Flex alignItems="center" justifyContent="space-between" p={2} borderWidth="1px" borderRadius="md" borderStyle="solid" borderColor="gray.200" flexWrap={{ base: 'wrap', lg: 'nowrap' }}>
           <TabList>
             {tabs.map((tab, index) => (
-              <Tab key={index} _selected={{ color: 'teal.500', bg: 'white' }} _hover={{ bg: 'gray.200' }} borderWidth="1px" borderRadius="md" borderStyle="solid" borderColor="gray.200" px={3} py={2} w={'150px'}>
+              <Tab key={index} _selected={{ color: 'white', bg: 'blue.400' }} _hover={{ color: 'blue.400', bg: 'gray.300' }} borderWidth="1px" borderRadius="md" borderStyle="solid" borderColor="gray.200" px={3} py={2} w={'150px'}>
                 {tab.name}
               </Tab>
             ))}
@@ -253,7 +255,7 @@ const TabsContainer = () => {
                     p={2}
                     bg="white"
                     borderRadius="md"
-                    mb={5}
+                    mb={4}
                     borderWidth="1px"
                     borderStyle="solid"
                     borderColor="gray.200"
