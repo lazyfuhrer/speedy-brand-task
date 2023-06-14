@@ -36,7 +36,7 @@ The Speedy Brand Task application is deployed and can be accessed at: [Deployed 
 
 ## Tech Stacks Used
 
-The Speedy Brand Task application utilizes the following technologies:
+This application utilizes the following technologies:
 
 - Next.js: A React framework for building server-rendered applications.
 - React: A JavaScript library for building user interfaces.
