@@ -1,6 +1,6 @@
 # Speedy Brand Task
 
-This repository contains the source code for the Speedy Brand Task application, built with Next.js.
+This repository contains the source code for the Speedy Brand Task, built with Next.js.
 
 ## Assignment Link
 
@@ -32,7 +32,7 @@ npm run dev
 
 ## Deployed Link
 
-The Speedy Brand Task application is deployed and can be accessed at: [Deployed Link](https://joyful-otter-034a74.netlify.app)
+The application is deployed and can be accessed at: [Deployed Link](https://joyful-otter-034a74.netlify.app)
 
 ## Tech Stacks Used
 
