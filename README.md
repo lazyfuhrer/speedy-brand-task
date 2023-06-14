@@ -2,6 +2,10 @@
 
 This repository contains the source code for the Speedy Brand Task application, built with Next.js.
 
+## Assignment Link
+
+The assignment details can be found at: [Assignment Link](https://drive.google.com/file/d/1AQA9uGgwkI4XeG94S82Lh-84Qxefgeol/view)
+
 ## Cloning and Running the Repository
 
 To clone and run this application locally, follow these steps:
